@@ -372,11 +372,6 @@ var Airplane = function( x, y ){
 Airplane.prototype = new Vehicle( 100, 100);
 
 
-/*
-	new code
-*/
-
-
 
 
 
