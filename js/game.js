@@ -56,7 +56,16 @@ var game = (function( win, doc, tank, undef){
 	createTanks = function(){
 		
 		tanks.push( new Tank( 0, 0) );
-		airplanes.push( new Airplane( 100, 100) );
+		
+
+		airplanes.push( new Airplane( 600, -100) );
+		airplanes.push( new Airplane( -60, 200) );
+		airplanes.push( new Airplane( 600, 300) );
+		airplanes.push( new Airplane( 1000, 400) );
+		airplanes.push( new Airplane( 350, 170) );
+		airplanes.push( new Airplane( -60, 200) );
+		airplanes.push( new Airplane( 670, 370) );
+		airplanes.push( new Airplane( 1000, 900) );
 		
 	},
 	blank = function(){
