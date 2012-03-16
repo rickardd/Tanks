@@ -34,28 +34,7 @@ var Vehicle = function( x, y ){
 	this.topOut = false,
 	this.bottomOut = false;
 	//this.head = new Head( this );
-	
-	
-	
-
-		
 }
-
-
-Vehicle.prototype.fward = function(){
-	
-	if( this.stopFWard === false ){
-		
-		var pos = window.angleCalc( this.rotationAngle, this.x, this.y, this.width, this.height, this.speed );
-		
-		this.move = true;
-		this.x += pos.x;
-		this.y += pos.y;
-		
-		this.collitionX = this.x + this.correctionX;
-		this.collitionY = this.y + this.correctionY;
-	}	
-};
 
 Vehicle.prototype.add = function(){
 	
@@ -65,6 +44,8 @@ Vehicle.prototype.add = function(){
 		ctx = canv.getContext('2d');
 		width = this.width + this.shadowBlur * 2,
 		height = this.height + this.shadowBlur * 2;
+
+
 	
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
@@ -82,10 +63,30 @@ Vehicle.prototype.add = function(){
 	this.correctionY = - this.height / 2;
 	
 	
-	win.tankElements.body.canv.push( canv );
-	win.tankElements.body.ctx.push( ctx );
+	//win.tankElements.body.canv.push( canv );
+	//win.tankElements.body.ctx.push( ctx );
+
+	this.canvas = canv;
+	this.ctx = ctx;
 	
 };
+
+Vehicle.prototype.fward = function(){
+	
+	if( this.stopFWard === false ){
+		
+		var pos = window.angleCalc( this.rotationAngle, this.x, this.y, this.width, this.height, this.speed );
+		
+		this.move = true;
+		this.x += pos.x;
+		this.y += pos.y;
+		
+		this.collitionX = this.x + this.correctionX;
+		this.collitionY = this.y + this.correctionY;
+	}	
+};
+
+
 
 Vehicle.prototype.bward = function(){
 	
@@ -120,9 +121,17 @@ Vehicle.prototype.turnRight = function(){
 
 Vehicle.prototype.draw = function(){
 
-	var tankCanv = window.tankElements.body.canv[0],
+	/*var tankCanv = window.tankElements.body.canv[0],
 		tankCtx = window.tankElements.body.ctx[0],				
-		ctx = window.ctx;
+		ctx = window.ctx; */
+
+	var ctx = window.ctx,
+		tankCanv = this.canvas,
+		tankCtx = this.ctx;
+
+
+
+
 	
 	ctx.save();
 
@@ -130,8 +139,8 @@ Vehicle.prototype.draw = function(){
     ctx.rotate( this.rotationAngle * Math.PI / 180 );
     ctx.translate( -tankCtx.canvas.width/2, -tankCtx.canvas.height/2 );
 	
-	ctx.fillStyle = 'rgba(0,0,0,0.2)';
-    ctx.fillRect( 0, 0, tankCtx.canvas.width, tankCtx.canvas.height);
+	//ctx.fillStyle = 'rgba(0,0,0,0.2)';
+    //ctx.fillRect( 0, 0, tankCtx.canvas.width, tankCtx.canvas.height);
 	    
 	ctx.drawImage( tankCanv, 0,0, tankCtx.canvas.width, tankCtx.canvas.height  );
 	
@@ -229,27 +238,30 @@ var Head = function( body ){
 	this.nrOfShots = 10;
 	this.nrOfShoten = 0;
 	
-	( function( that, win, doc ){
+	( function( win, doc ){
 		
 		var canv = doc.createElement('canvas'),
 			ctx = canv.getContext('2d');
 		
-		canv.x = that.x;
-		canv.y = that.y;
+		canv.x = this.x;
+		canv.y = this.y;
 		
-		win.tankElements.head.canv.push( canv );
-		win.tankElements.head.ctx.push( ctx );
+		//win.tankElements.head.canv.push( canv );
+		//win.tankElements.head.ctx.push( ctx );
 		
-		ctx.fillStyle = that.color;
+		ctx.fillStyle = this.color;
 		
 	    ctx.shadowOffsetX = 0;   
 		ctx.shadowOffsetY = 0;   
 		ctx.shadowBlur = 6;   
-		ctx.shadowColor = "rgba(0,0,0,.5)";	 
+		ctx.shadowColor = this.shadowColor;	 
 
-		ctx.fillRect( 0, 0, that.width, that.height );
+		ctx.fillRect( 0, 0, this.width, this.height );
 		
-	})( this, window, document );
+		this.canvas = canv;
+		this.ctx = ctx;
+
+	}).call( this, window, document );
 };
 
 Head.prototype.turnRight = function(){
@@ -272,9 +284,9 @@ Head.prototype.shot = function(){
 	this.nrOfShots --;
 	this.nrOfShoten ++;
 	
-	//window.shots.push( new Cannon( this.rotationAngle, this.x, this.y ) );
+	window.shots.push( new Cannon( this.rotationAngle, this.x, this.y ) );
 	
-	window.shots.push( new Gun( this.rotationAngle, this.x, this.y ) );
+	//window.shots.push( new Gun( this.rotationAngle, this.x, this.y ) );
 }
 
 Head.prototype.update = function(){
@@ -285,8 +297,8 @@ Head.prototype.update = function(){
 
 Head.prototype.draw = function(){
 
-	var headCanv = window.tankElements.head.canv[0],
-		headCtx = window.tankElements.head.ctx[0],				
+	var headCanv = this.canvas, //window.tankElements.head.canv[0],
+		headCtx = this.ctx, //window.tankElements.head.ctx[0],				
 		ctx = window.ctx;
 	
 	ctx.save();
@@ -322,8 +334,8 @@ Head.prototype.draw = function(){
 
 
 var Tank = function( x, y ){
-	this.x = x;
-	this.y = y;
+	this.x = x || 100;
+	this.y = y || 100;
 	this.width = 100;
 	this.height = 50;
 	this.rotationAngle = 25;
@@ -342,17 +354,19 @@ Tank.prototype = new Vehicle( 100, 100);
 
 
 var Airplane = function( x, y ){
-	this.x = x;
-	this.y = y;
+	this.x = x || 100;
+	this.y = y || 100;
 	this.width = 50;
-	this.height = 50;
+	this.height = 20;
 	this.rotationAngle = 25;
-	this.forward = false;
+	this.forward = true;
 	this.speed = 10;
+	this.color = 'rgba(83, 224, 207, 1)';
+	this.shadowBlur = 15;
+	this.shadowColor = 'rgba(0, 0, 0, .3)';
 	
-	this.add( window, document);
+	this.add();
 	
-	console.log( this );
 };
 
 Airplane.prototype = new Vehicle( 100, 100);
