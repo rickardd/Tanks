@@ -1,26 +1,25 @@
+/*
+ *
+ *	Global constants, variables and methods
+ *
+ *
+*/
+
+
+
+
 window.requestAnimFrame = (function(){
 	return window.mozRequestAnimationFrame;	
-})( window );	
+})( window );
+
 window.tanks = [];
 window.airplanes = [];
+window.humans = [];
 window.shots = [];
 window.crates = [];
 window.barriers = [];
 window.collitionArray = [];
-window.tankElements = {
-	body: {
-		canv: [],
-		ctx: []
-	},
-	head: {
-		canv: [],
-		ctx: []	
-	}	
-	
-};
-window.background = {
-	bubble: []	
-}
+window.background = { bubble: [] };
 
 window.gameArea = document.getElementById( 'game-area' );
 	

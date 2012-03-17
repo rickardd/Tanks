@@ -5,14 +5,14 @@
 	
 */
 
-var Vehicle = function( x, y ){
+var Vehicle = function(){
 
 	var	ctx = window.ctx;
 	
 	this.width = 100;
 	this.height = 200;
-	this.x = x || 0;
-	this.y = y || 0;	
+	this.x = 100;
+	this.y = 100;	
 	this.correctionX = 0;
 	this.correctionY = 0;
 	this.collitionX = 0;
@@ -50,11 +50,15 @@ Vehicle.prototype.add = function(){
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
 	
-    ctx.shadowOffsetX = 0;   
-	ctx.shadowOffsetY = 0;   
-	ctx.shadowBlur = this.shadowBlur;   
-	ctx.shadowColor = "rgba(0,0,0,.5)";	 
+	if ( this.shadowBlur > 0 ) {
 
+		ctx.shadowOffsetX = 0;   
+		ctx.shadowOffsetY = 0;   
+		ctx.shadowBlur = this.shadowBlur;   
+		ctx.shadowColor = "rgba(0,0,0,.5)";	 
+		console.count( 'shadowBlur' );
+	};
+    
 	ctx.fillStyle = this.color;
 
 	ctx.fillRect( this.shadowBlur, this.shadowBlur, this.width, this.height );
@@ -345,7 +349,7 @@ var Tank = function( x, y ){
 	this.head = new Head( this );
 };
 
-Tank.prototype = new Vehicle( 100, 100);
+Tank.prototype = new Vehicle();
 
 
 /*
@@ -369,7 +373,31 @@ var Airplane = function( x, y ){
 	
 };
 
-Airplane.prototype = new Vehicle( 100, 100);
+Airplane.prototype = new Vehicle();
+
+
+/*
+	HUBMAN
+*/
+
+
+var Human = function( x, y ){
+	this.x = x || 200;
+	this.y = y || 200;
+	this.width = 20;
+	this.height = 20;
+	this.rotationAngle = -90;
+	this.forward = true;
+	this.speed = 1;
+	this.color = 'rgba(83, 0, 207, 1)';
+	this.shadowBlur = 0;
+	this.intelegens = 10;
+
+	this.add();
+	
+};
+
+Human.prototype = new Vehicle();
 
 
 

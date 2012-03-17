@@ -55,17 +55,12 @@ var game = (function( win, doc, tank, undef){
 	},
 	createTanks = function(){
 		
-		tanks.push( new Tank( 0, 0) );
+		win.tanks.push( new Tank( 0, 0) );
 		
 
-		airplanes.push( new Airplane( 600, -100) );
-		airplanes.push( new Airplane( -60, 200) );
-		airplanes.push( new Airplane( 600, 300) );
-		airplanes.push( new Airplane( 1000, 400) );
-		airplanes.push( new Airplane( 350, 170) );
-		airplanes.push( new Airplane( -60, 200) );
-		airplanes.push( new Airplane( 670, 370) );
-		airplanes.push( new Airplane( 1000, 900) );
+		win.airplanes.push( new Airplane( 600, -100) );
+		
+		win.humans.push( new Human() );
 		
 	},
 	blank = function(){
@@ -88,6 +83,31 @@ var game = (function( win, doc, tank, undef){
 			Bubble.update();
 			Bubble.draw();
 						
+		});
+
+		win.humans.forEach( function( Human, i ){
+			
+			
+			if( Human.forward === true ){
+				Human.fward();			
+			}
+			if( Human.backward === true ){
+				Human.bward();			
+			}
+			if( Human.left === true ){
+				Human.turnLeft();			
+			}
+			if( Human.right === true ){
+				Human.turnRight();			
+			}
+						
+			if( Human.move === true ){
+				Human.checkBodyCollition();	
+				Human.checkPosition();
+			}
+			
+			Human.draw();
+			
 		});
 
 		/*
