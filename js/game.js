@@ -55,12 +55,17 @@ var game = (function( win, doc, tank, undef){
 	},
 	createTanks = function(){
 		
-		win.tanks.push( new Tank( 0, 0) );
 		
+		var player = new Human();
+		win.player = player;
+
+		win.tanks.push( new Tank() );
 
 		win.airplanes.push( new Airplane( 600, -100) );
+
+
 		
-		win.humans.push( new Human() );
+		win.humans.push( player );
 		
 	},
 	blank = function(){
@@ -70,6 +75,40 @@ var game = (function( win, doc, tank, undef){
 		ctx.fillStyle = '#cdf1fa';
 		ctx.fillRect( 0,0, ctx.canvas.width, ctx.canvas.height );
 	
+	},
+	moveVehicle = function(){
+		
+		
+			if( this.forward === true ){
+				this.fward();			
+			}
+			if( this.backward === true ){
+				this.bward();			
+			}
+			if( this.left === true /*&& this.stopTurning === false*/ ){
+				this.turnLeft();			
+			}
+			/*
+				DEBUGG
+			if( this.type = 'Human' ){
+
+				console.log( 'stop Turning', this.stopTurning);
+
+				//console.log( xxxxxx = (this.left === true) , xxxxxxxxx = (this.stopTurning == false ));
+
+				//debugger;
+
+			}*/
+			if( this.right === true /*&& this.stopTurning !== true */ ){
+				this.turnRight();			
+			}
+						
+			if( this.move === true ){
+				this.checkBodyCollition();	
+				this.checkPosition();
+			}
+		
+
 	},
 	gameLoop = function(){
 		blank();
@@ -88,23 +127,7 @@ var game = (function( win, doc, tank, undef){
 		win.humans.forEach( function( Human, i ){
 			
 			
-			if( Human.forward === true ){
-				Human.fward();			
-			}
-			if( Human.backward === true ){
-				Human.bward();			
-			}
-			if( Human.left === true ){
-				Human.turnLeft();			
-			}
-			if( Human.right === true ){
-				Human.turnRight();			
-			}
-						
-			if( Human.move === true ){
-				Human.checkBodyCollition();	
-				Human.checkPosition();
-			}
+			moveVehicle.call( Human );
 			
 			Human.draw();
 			
@@ -117,7 +140,9 @@ var game = (function( win, doc, tank, undef){
 		win.tanks.forEach( function( Tank, i ){
 			
 			
-			if( Tank.forward === true ){
+			moveVehicle.call( Tank );
+
+			/*if( Tank.forward === true ){
 				Tank.fward();			
 			}
 			if( Tank.backward === true ){
@@ -133,7 +158,7 @@ var game = (function( win, doc, tank, undef){
 			if( Tank.move === true ){
 				Tank.checkBodyCollition();	
 				Tank.checkPosition();
-			}
+			}*/
 			
 			Tank.draw();
 			
@@ -178,12 +203,14 @@ var game = (function( win, doc, tank, undef){
 				HEAD
 			*/
 			
-			if( Tank.head.isTurningRight === true ){
+			/*if( Tank.head.isTurningRight === true ){
 				Tank.head.turnRight();			
 			}
 			if( Tank.head.isTurningLeft === true ){
 				Tank.head.turnLeft();			
-			}
+			}*/
+
+			moveVehicle.call( Tank.head );
 			
 			Tank.head.update();
 			

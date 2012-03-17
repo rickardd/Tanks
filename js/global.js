@@ -24,7 +24,19 @@ window.background = { bubble: [] };
 window.gameArea = document.getElementById( 'game-area' );
 	
 
+window.player = {};
 
+/*(function(){
+
+	this.player = {};
+
+	this.setPlayer = (function(){
+
+		this.player = player;
+
+	});
+
+})();*/
 
 
 /*

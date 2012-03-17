@@ -2,27 +2,32 @@
 
 	var keyDown = function( event ){
 
+		var player = win.player;
+
 			switch( event.keyCode ){
 				case 38: // up	
-					tanks[0].forward = true;
+					player.forward = true;
 					break;
 				case 40: // down
-					tanks[0].backward = true;
+					player.backward = true;
 					break;
 				case 37: // left
-					tanks[0].left = true;	
+					player.left = true;	
+					if( player.turningOnce === true ){
+						player.stopTurning = true;
+					}
 					break;
 				case 39: // right
-					tanks[0].right = true;
+					player.right = true;
 					break;
 				case 65: // a - turn head left
-					tanks[0].head.isTurningLeft = true;
+					player.head.isTurningLeft = true;
 					break;
 				case 68: // d - turn head right
-					tanks[0].head.isTurningRight = true;
+					player.head.isTurningRight = true;
 					break;
 				case 32: // space	
-					tanks[0].head.shot();
+					player.head.shot();
 					break;
 			}
 		},
@@ -30,22 +35,25 @@
 		
 			switch( event.keyCode ){
 				case 38: // up
-					tanks[0].forward = false;
+					player.forward = false;
 					break;
 				case 40: // down
-					tanks[0].backward = false;
+					player.backward = false;
 					break;
 				case 37: // left
-					tanks[0].left = false;	
+					player.left = false;
+					if( player.turningOnce === true ){
+						player.stopTurning = false;
+					}	
 					break;
 				case 39: // right
-					tanks[0].right = false;
+					player.right = false;
 					break;
 				case 65: // a
-					tanks[0].head.isTurningLeft = false;
+					player.head.isTurningLeft = false;
 					break;
 				case 68: // d
-					tanks[0].head.isTurningRight = false;
+					player.head.isTurningRight = false;
 					break;
 			}
 	};

@@ -26,6 +26,8 @@ var Vehicle = function(){
 	this.move = false;
 	this.forward = false;
 	this.backward = false;
+	this.left = false;
+	this.right = false;
 	this.stopFWard = false;
 	this.stopBWard = false;
 	this.collition = false;
@@ -33,6 +35,9 @@ var Vehicle = function(){
 	this.rightOut = false;
 	this.topOut = false,
 	this.bottomOut = false;
+	this.stopTurning = false;
+	this.turningOnce = false;
+	this.type = 'Vehicle';
 	//this.head = new Head( this );
 }
 
@@ -110,7 +115,7 @@ Vehicle.prototype.bward = function(){
 
 Vehicle.prototype.turnLeft = function(){
 	var newAngle = this.rotationAngle - this.rotationSpeed,
-		pos = angleCalc( this.rotationAngle, this.x, this.y, this.speed );
+		pos = angleCalc( newAngle, this.x, this.y, this.speed );
 		
 	this.rotationAngle = ( newAngle < 0 + this.rotationSpeed  ) ? 360: newAngle;
 };
@@ -118,7 +123,7 @@ Vehicle.prototype.turnLeft = function(){
 
 Vehicle.prototype.turnRight = function(){
 	var newAngle = this.rotationAngle + this.rotationSpeed,
-		pos = angleCalc( this.rotationAngle, this.x, this.y, this.speed );
+		pos = angleCalc( newAngle, this.x, this.y, this.speed );
 		
 	this.rotationAngle = ( newAngle > 360 - this.rotationSpeed ) ? 0: newAngle;
 };
@@ -231,6 +236,7 @@ Vehicle.prototype.stop = function(){
 
 
 var Head = function( body ){
+	this.type = 'Tank_Head';
 	this.body = body;
 	this.x = this.body.x;
 	this.y = this.body.y;
@@ -241,6 +247,8 @@ var Head = function( body ){
 	this.rotationSpeed = 3; 
 	this.nrOfShots = 10;
 	this.nrOfShoten = 0;
+	this.turningOnce = false;
+	this.stopTurning = false;
 	
 	( function( win, doc ){
 		
@@ -338,6 +346,7 @@ Head.prototype.draw = function(){
 
 
 var Tank = function( x, y ){
+	this.type = 'Tank';
 	this.x = x || 100;
 	this.y = y || 100;
 	this.width = 100;
@@ -358,6 +367,7 @@ Tank.prototype = new Vehicle();
 
 
 var Airplane = function( x, y ){
+	this.type = 'Airplane';
 	this.x = x || 100;
 	this.y = y || 100;
 	this.width = 50;
@@ -382,16 +392,22 @@ Airplane.prototype = new Vehicle();
 
 
 var Human = function( x, y ){
+	this.type = 'Human';
 	this.x = x || 200;
 	this.y = y || 200;
 	this.width = 20;
 	this.height = 20;
 	this.rotationAngle = -90;
+	this.rotationspeed = 360 / 90;
+
 	this.forward = true;
 	this.speed = 1;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
 	this.intelegens = 10;
+
+	this.turningOnce = true;
+
 
 	this.add();
 	
