@@ -53,7 +53,7 @@ var game = (function( win, doc, tank, undef){
 		win.barriers.push( new Barrier() );			
 		
 	},
-	createTanks = function(){
+	createVehicle = function(){
 		
 		var human = new Human(),
 			tank = new Tank(),
@@ -63,7 +63,14 @@ var game = (function( win, doc, tank, undef){
 		win.airplanes.push( airplane );
 		win.humans.push( human );
 
-		win.player = tank;
+
+		/*
+			Set the player
+		*/
+
+		win.player = human;
+		win.player.player = true;
+
 
 	},
 	blank = function(){
@@ -141,9 +148,8 @@ var game = (function( win, doc, tank, undef){
 
 		win.humans.forEach( function( Human, i ){
 			
-			
 			moveVehicle.call( Human );
-			
+
 			Human.draw();
 			
 		});
@@ -191,7 +197,21 @@ var game = (function( win, doc, tank, undef){
 		});
 		
 		/*
-			WEAPON
+			HUMAN WEAPON
+		*/
+		
+		win.humans.forEach( function( Human, i ){
+			
+			rotateWeapon.call( Human.weapon );
+			
+			Human.weapon.update();
+			
+			Human.weapon.draw();
+			
+		});		
+
+		/*
+			TANK WEAPON
 		*/
 		
 		win.tanks.forEach( function( Tank, i ){
@@ -203,6 +223,8 @@ var game = (function( win, doc, tank, undef){
 			Tank.weapon.draw();
 			
 		});		
+
+		
 		
 		/*
 			CRATE
@@ -247,7 +269,7 @@ var game = (function( win, doc, tank, undef){
 			createCanvas();
 			createBackground();
 			createBarrier();
-			createTanks();
+			createVehicle();
 			gameLoop();		
 		}
 	}

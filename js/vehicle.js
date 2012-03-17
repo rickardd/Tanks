@@ -7,9 +7,8 @@
 /**************************************************************************/
 
 var Vehicle = function(){
-
-	var	ctx = window.ctx;
 	
+	this.player = false;
 	this.width = 100;
 	this.height = 200;
 	this.x = 100;
@@ -90,6 +89,7 @@ Vehicle.prototype.fward = function(){
 		this.move = true;
 		this.x += pos.x;
 		this.y += pos.y;
+
 		
 		this.collitionX = this.x + this.correctionX;
 		this.collitionY = this.y + this.correctionY;
@@ -131,18 +131,10 @@ Vehicle.prototype.turnRight = function(){
 
 Vehicle.prototype.draw = function(){
 
-	/*var tankCanv = window.tankElements.body.canv[0],
-		tankCtx = window.tankElements.body.ctx[0],				
-		ctx = window.ctx; */
-
 	var ctx = window.ctx,
 		tankCanv = this.canvas,
 		tankCtx = this.ctx;
 
-
-
-
-	
 	ctx.save();
 
 	ctx.translate( this.x , this.y);
@@ -153,8 +145,6 @@ Vehicle.prototype.draw = function(){
     //ctx.fillRect( 0, 0, tankCtx.canvas.width, tankCtx.canvas.height);
 	    
 	ctx.drawImage( tankCanv, 0,0, tankCtx.canvas.width, tankCtx.canvas.height  );
-	
-
 
 	ctx.restore();
 			
@@ -250,9 +240,8 @@ var Tank = function( x, y ){
 	this.rotationAngle = 25;
 	this.forward = false;
 	this.speed = 10;
-	this.weapon = 'gun';	
 	this.add();
-	this.weapon = new Weapon( this );
+	this.weapon = new Weapon( this, 'cannon', 50, 30 );
 };
 
 Tank.prototype = new Vehicle();
@@ -296,29 +285,17 @@ var Human = function( x, y ){
 	this.height = 20;
 	this.rotationAngle = -90;
 	this.rotationspeed = 360 / 90;
-
 	this.forward = true;
 	this.speed = 1;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
 	this.intelegens = 10;
-
 	this.turningOnce = true;
-
-	this.weapon = 'cannon';
-
 	this.add();
-
-	this.weapon = new Weapon( this );
-	
+	this.weapon = new Weapon( this, 'gun', 30, 5 );
 };
 
 Human.prototype = new Vehicle();
-
-
-
-
-
 
 
 

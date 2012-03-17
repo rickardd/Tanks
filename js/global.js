@@ -6,8 +6,6 @@
 */
 
 
-
-
 window.requestAnimFrame = (function(){
 	return window.mozRequestAnimationFrame;	
 })( window );
@@ -37,6 +35,28 @@ window.player = {};
 	});
 
 })();*/
+
+
+
+
+
+/*
+	TITLE
+*/
+
+(function( doc ){
+
+	//var i = setInterval( function( i ){
+
+		var title = doc.getElementsByTagName('title')[0];
+
+		title.text = 'set title';
+
+
+	//}, 300);
+
+})(document);
+
 
 
 /*

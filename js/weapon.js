@@ -9,14 +9,17 @@
 **************************/
 
 
-var Weapon = function( body ){
+var Weapon = function( body, weapon, width, height ){
 	this.type = 'Tank_Weapon';
+	this.weapon = weapon;
 	this.body = body;
-	this.weapon = body.weapon;
+	//this.weapon = body.weapon;
 	this.x = this.body.x;
 	this.y = this.body.y;
-	this.width = 50;
-	this.height = 30;
+	
+	this.width = width;
+	this.height = height;
+	console.log( this.width, this.height);
 	this.color = '#345678';
 	this.rotationAngle = this.body.rotationAngle;
 	this.rotationSpeed = 3; 
@@ -83,7 +86,6 @@ Weapon.prototype.shot = function(){
 		default: 
 			weapon = new Cannon( this.rotationAngle, this.x, this.y );
 			console.info( 'default weapon is used');
-			debugger;
 			break;
 	}
 	
@@ -94,6 +96,7 @@ Weapon.prototype.shot = function(){
 Weapon.prototype.update = function(){
 	this.x = this.body.x;
 	this.y = this.body.y;
+	console.log
 }
 
 Weapon.prototype.draw = function(){
@@ -109,8 +112,14 @@ Weapon.prototype.draw = function(){
 
 	ctx.drawImage( WeaponCanv, -this.width/2 , -this.height/2  );
 
+	if( this.body.player === true ){
+
+		debugger;
+
+	}
+
 	ctx.restore();
-			
+
 	/*
 		To make the tank turning round the center point the drawing starting -half-height and width.
 		Is it posible to turnit and draw the tank at 0,0?
@@ -400,18 +409,9 @@ var Cannon = function( angle, hX, hY){
 	this.r = 6;
 	this.crater = true;
 	this.setColor( 100, 100, 100, 1);
-	this.init();		
 };
 
 Cannon.prototype = new Bullet();
-
-//Cannon.prototype = window.extend( Bullet );
-
-Cannon.prototype.init = function(){
-	
-};
-
-
 
 
 var Gun = function( angle, hX, hY ){
@@ -426,17 +426,10 @@ var Gun = function( angle, hX, hY ){
 	this.distance = window.ctx.canvas.width + 100;
 	this.speed = 30;
 	this.blur = 0;
-	this.setColor( 30, 30, 30, 1);
-	this.init();		
+	this.setColor( 30, 30, 30, 1 );
 };
 
 Gun.prototype = new Bullet();
-//Gun.prototype = window.extend( Bullet );
-
-Gun.prototype.init = function(){
-	
-};
-
 
 
 
