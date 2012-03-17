@@ -1,9 +1,10 @@
-
 /*
 
-	TANK CONSTRUKTOR
+	VEHICLE BASE STRUCTURE
 	
 */
+
+/**************************************************************************/
 
 var Vehicle = function(){
 
@@ -38,7 +39,7 @@ var Vehicle = function(){
 	this.stopTurning = false;
 	this.turningOnce = false;
 	this.type = 'Vehicle';
-	//this.head = new Head( this );
+	//this.weapon = new Weapon( this );
 }
 
 Vehicle.prototype.add = function(){
@@ -225,118 +226,13 @@ Vehicle.prototype.stop = function(){
 
 
 
-
-/*************************
- 
- 
- TANK HEAD
-
-
-**************************/
-
-
-var Head = function( body ){
-	this.type = 'Tank_Head';
-	this.body = body;
-	this.x = this.body.x;
-	this.y = this.body.y;
-	this.width = 50;
-	this.height = 30;
-	this.color = '#345678';
-	this.rotationAngle = this.body.rotationAngle;
-	this.rotationSpeed = 3; 
-	this.nrOfShots = 10;
-	this.nrOfShoten = 0;
-	this.turningOnce = false;
-	this.stopTurning = false;
-	
-	( function( win, doc ){
-		
-		var canv = doc.createElement('canvas'),
-			ctx = canv.getContext('2d');
-		
-		canv.x = this.x;
-		canv.y = this.y;
-		
-		//win.tankElements.head.canv.push( canv );
-		//win.tankElements.head.ctx.push( ctx );
-		
-		ctx.fillStyle = this.color;
-		
-	    ctx.shadowOffsetX = 0;   
-		ctx.shadowOffsetY = 0;   
-		ctx.shadowBlur = 6;   
-		ctx.shadowColor = this.shadowColor;	 
-
-		ctx.fillRect( 0, 0, this.width, this.height );
-		
-		this.canvas = canv;
-		this.ctx = ctx;
-
-	}).call( this, window, document );
-};
-
-Head.prototype.turnRight = function(){
-	var newAngle = this.rotationAngle + this.rotationSpeed,
-		pos = angleCalc( this.rotationAngle, this.x, this.y, this.speed );
-		
-	this.rotationAngle = ( newAngle > 360 - this.rotationSpeed ) ? 0: newAngle;
-};
-
-Head.prototype.turnLeft = function(){
-	var newAngle = this.rotationAngle - this.rotationSpeed,
-		pos = angleCalc( this.rotationAngle, this.x, this.y, this.speed );
-		
-	this.rotationAngle = ( newAngle < 0 + this.rotationSpeed  ) ? 360: newAngle;
-
-};
-
-Head.prototype.shot = function(){
-	
-	this.nrOfShots --;
-	this.nrOfShoten ++;
-	
-	window.shots.push( new Cannon( this.rotationAngle, this.x, this.y ) );
-	
-	//window.shots.push( new Gun( this.rotationAngle, this.x, this.y ) );
-}
-
-Head.prototype.update = function(){
-	this.x = this.body.x;
-	this.y = this.body.y;
-	//this.rotationAngle = this.body.rotationAngle
-}
-
-Head.prototype.draw = function(){
-
-	var headCanv = this.canvas, //window.tankElements.head.canv[0],
-		headCtx = this.ctx, //window.tankElements.head.ctx[0],				
-		ctx = window.ctx;
-	
-	ctx.save();
-
-	ctx.translate( this.x, this.y);
-    ctx.rotate( this.rotationAngle * Math.PI / 180 );
-
-	ctx.drawImage( headCanv, -this.width/2 , -this.height/2  );
-
-	ctx.restore();
-			
-	/*
-		To make the tank turning round the center point the drawing starting -half-height and width.
-		Is it posible to turnit and draw the tank at 0,0?
-		
-		maby it posible to draw the hole tank object into a new tank canvas and the draw that one into game canvas. 
-		
-	*/
-	
-
-};
-
-
 /*
-	*********************************************************************************************
+
+	VEHICLE TYPES
+	
 */
+
+/**************************************************************************/
 
 
 
@@ -353,9 +249,10 @@ var Tank = function( x, y ){
 	this.height = 50;
 	this.rotationAngle = 25;
 	this.forward = false;
-	this.speed = 10;	
+	this.speed = 10;
+	this.weapon = 'gun';	
 	this.add();
-	this.head = new Head( this );
+	this.weapon = new Weapon( this );
 };
 
 Tank.prototype = new Vehicle();
@@ -387,7 +284,7 @@ Airplane.prototype = new Vehicle();
 
 
 /*
-	HUBMAN
+	HUMAN
 */
 
 
@@ -408,8 +305,11 @@ var Human = function( x, y ){
 
 	this.turningOnce = true;
 
+	this.weapon = 'cannon';
 
 	this.add();
+
+	this.weapon = new Weapon( this );
 	
 };
 

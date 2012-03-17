@@ -55,18 +55,16 @@ var game = (function( win, doc, tank, undef){
 	},
 	createTanks = function(){
 		
+		var human = new Human(),
+			tank = new Tank(),
+			airplane = new Airplane( 600, -100);
 		
-		var player = new Human();
-		win.player = player;
+		win.tanks.push( tank );
+		win.airplanes.push( airplane );
+		win.humans.push( human );
 
-		win.tanks.push( new Tank() );
+		win.player = tank;
 
-		win.airplanes.push( new Airplane( 600, -100) );
-
-
-		
-		win.humans.push( player );
-		
 	},
 	blank = function(){
 		
@@ -110,7 +108,20 @@ var game = (function( win, doc, tank, undef){
 		
 
 	},
+	rotateWeapon = function(){
+		if( this.isTurningRight === true ){
+				this.turnRight();			
+		}
+		if( this.isTurningLeft === true ){
+			this.turnLeft();			
+		}
+	},
 	gameLoop = function(){
+		
+		/*
+			CLEAR STAGE
+		*/
+
 		blank();
 		
 		/*
@@ -124,6 +135,10 @@ var game = (function( win, doc, tank, undef){
 						
 		});
 
+		/*
+			HUMAN
+		*/
+
 		win.humans.forEach( function( Human, i ){
 			
 			
@@ -134,7 +149,7 @@ var game = (function( win, doc, tank, undef){
 		});
 
 		/*
-			TANKS BODY
+			TANK
 		*/
 			
 		win.tanks.forEach( function( Tank, i ){
@@ -142,24 +157,6 @@ var game = (function( win, doc, tank, undef){
 			
 			moveVehicle.call( Tank );
 
-			/*if( Tank.forward === true ){
-				Tank.fward();			
-			}
-			if( Tank.backward === true ){
-				Tank.bward();			
-			}
-			if( Tank.left === true ){
-				Tank.turnLeft();			
-			}
-			if( Tank.right === true ){
-				Tank.turnRight();			
-			}
-						
-			if( Tank.move === true ){
-				Tank.checkBodyCollition();	
-				Tank.checkPosition();
-			}*/
-			
 			Tank.draw();
 			
 		});
@@ -194,29 +191,22 @@ var game = (function( win, doc, tank, undef){
 		});
 		
 		/*
-			TANK HEAD
+			WEAPON
 		*/
 		
 		win.tanks.forEach( function( Tank, i ){
 			
-			/*
-				HEAD
-			*/
+			rotateWeapon.call( Tank.weapon );
 			
-			/*if( Tank.head.isTurningRight === true ){
-				Tank.head.turnRight();			
-			}
-			if( Tank.head.isTurningLeft === true ){
-				Tank.head.turnLeft();			
-			}*/
-
-			moveVehicle.call( Tank.head );
+			Tank.weapon.update();
 			
-			Tank.head.update();
+			Tank.weapon.draw();
 			
-			Tank.head.draw();
-			
-		});
+		});		
+		
+		/*
+			CRATE
+		*/
 		
 		win.crates.forEach( function( Crate, i ){
 			
@@ -225,39 +215,30 @@ var game = (function( win, doc, tank, undef){
 			Crate.draw();
 			
 		});
+				
+		/*
+			AIRPLANE
+		*/
 		
 		win.airplanes.forEach( function( Airplane, i ){
 			
-			
-			if( Airplane.forward === true ){
-				Airplane.fward();			
-			}
-			if( Airplane.backward === true ){
-				Airplane.bward();			
-			}
-			if( Airplane.left === true ){
-				Airplane.turnLeft();			
-			}
-			if( Airplane.right === true ){
-				Airplane.turnRight();			
-			}
-						
-			if( Airplane.move === true ){
-				Airplane.checkBodyCollition();	
-				Airplane.checkPosition();
-			}
-			
+			moveVehicle.call( Airplane );
 			
 			Airplane.draw();
 			
 		});
 		
-
+		
+		/*
+			DRAW PLAY-CANVAS
+		*/
+		
 		win.ctxPlay.drawImage( win.canv, 0,0,ctxPlay.canvas.width, ctxPlay.canvas.height);
 
-		
+		/*
+			LOOP GAMELOOP
+		*/
 
-		
 		win.requestAnimFrame( gameLoop );
 	};
 	

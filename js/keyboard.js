@@ -20,14 +20,14 @@
 				case 39: // right
 					player.right = true;
 					break;
-				case 65: // a - turn head left
-					player.head.isTurningLeft = true;
+				case 65: // a - turn Weapon left
+					player.weapon.isTurningLeft = true;
 					break;
-				case 68: // d - turn head right
-					player.head.isTurningRight = true;
+				case 68: // d - turn Weapon right
+					player.weapon.isTurningRight = true;
 					break;
 				case 32: // space	
-					player.head.shot();
+					player.weapon.shot();
 					break;
 			}
 		},
@@ -50,10 +50,10 @@
 					player.right = false;
 					break;
 				case 65: // a
-					player.head.isTurningLeft = false;
+					player.weapon.isTurningLeft = false;
 					break;
 				case 68: // d
-					player.head.isTurningRight = false;
+					player.weapon.isTurningRight = false;
 					break;
 			}
 	};
