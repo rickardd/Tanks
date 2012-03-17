@@ -31,15 +31,50 @@ var Vehicle = function(){
 	this.stopFWard = false;
 	this.stopBWard = false;
 	this.collition = false;
-	this.leftOut = false,
+	this.leftOut = false;
 	this.rightOut = false;
-	this.topOut = false,
+	this.topOut = false;
 	this.bottomOut = false;
 	this.stopTurning = false;
 	this.turningOnce = false;
 	this.type = 'Vehicle';
-	//this.weapon = new Weapon( this );
-}
+	
+	/*
+	 	INTELEGENS
+	*/
+
+	this.intelegens = 0;
+	//this.intelegensRange = 10;
+	this.intel = {};
+	//this.intel.ranAngleInd = this.intelegensRange + this.intelegens;
+	//this.intel.intervalInd = 0; 
+	
+	
+
+};
+
+Vehicle.prototype.addIntelegens = function( intelegens ){
+
+	this.intelegens = intelegens;
+
+	/*
+		Sets new value on this.inte.intervalInd on a interval.
+	*/
+
+	(function(){
+		if( this.intelegens > 0 ){
+			var interval = 0, that = this;
+			setInterval( function(){
+				
+				//that.autoMove();
+
+				that.autoTurn();
+
+			}, 2000);
+		}
+	}).call( this );
+
+};
 
 Vehicle.prototype.add = function(){
 	
@@ -49,8 +84,6 @@ Vehicle.prototype.add = function(){
 		ctx = canv.getContext('2d');
 		width = this.width + this.shadowBlur * 2,
 		height = this.height + this.shadowBlur * 2;
-
-
 	
 	ctx.canvas.width = width;
 	ctx.canvas.height = height;
@@ -80,20 +113,45 @@ Vehicle.prototype.add = function(){
 	
 };
 
+
+Vehicle.prototype.autoTurn = function(){
+
+	/*var //index = this.intel.intervalInd, // intervall index
+		randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 );
+		pos = window.angleCalc( randAngle, this.x, this.y, this.width, this.height, this.speed );
+
+		console.log( randAngle );
+		
+		this.move = true;
+		this.x += pos.x;
+		this.y += pos.y;
+		
+		this.collitionX = this.x + this.correctionX;
+		this.collitionY = this.y + this.correctionY;*/
+
+		var randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 ),
+			pos = angleCalc( randAngle, this.x, this.y, this.speed );
+			
+		this.rotationAngle = ( randAngle > 360 - this.rotationSpeed ) ? 0: randAngle;
+
+};
+
 Vehicle.prototype.fward = function(){
 	
-	if( this.stopFWard === false ){
-		
+	/*if ( this.intelegens > 0 ) {
+		this.autoMove();
+	}
+	else if( this.stopFWard === false ){
+	*/	
 		var pos = window.angleCalc( this.rotationAngle, this.x, this.y, this.width, this.height, this.speed );
 		
 		this.move = true;
 		this.x += pos.x;
 		this.y += pos.y;
-
 		
 		this.collitionX = this.x + this.correctionX;
 		this.collitionY = this.y + this.correctionY;
-	}	
+	//}	
 };
 
 
@@ -286,13 +344,17 @@ var Human = function( x, y ){
 	this.rotationAngle = -90;
 	this.rotationspeed = 360 / 90;
 	this.forward = true;
-	this.speed = 1;
+	this.speed = 10;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
+	
+
 	this.intelegens = 10;
 	this.turningOnce = true;
 	this.add();
 	this.weapon = new Weapon( this, 'gun', 30, 5 );
+
+	this.addIntelegens( 5 );
 };
 
 Human.prototype = new Vehicle();

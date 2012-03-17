@@ -63,12 +63,11 @@ var game = (function( win, doc, tank, undef){
 		win.airplanes.push( airplane );
 		win.humans.push( human );
 
+		for (var i = 0; i <= 50; i++) {
+			win.humans.push( new Human( 800, 500) );				
+		}
 
-		/*
-			Set the player
-		*/
-
-		win.player = human;
+		win.player = tank;
 		win.player.player = true;
 
 
@@ -83,7 +82,7 @@ var game = (function( win, doc, tank, undef){
 	},
 	moveVehicle = function(){
 		
-		
+		//if ( this.intelegens <= 0 ) { // Normal movment
 			if( this.forward === true ){
 				this.fward();			
 			}
@@ -112,7 +111,7 @@ var game = (function( win, doc, tank, undef){
 				this.checkBodyCollition();	
 				this.checkPosition();
 			}
-		
+		//};
 
 	},
 	rotateWeapon = function(){
