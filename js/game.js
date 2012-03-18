@@ -88,7 +88,7 @@ var game = (function( win, doc, tank, undef){
 				this.bward();			
 			}
 			if( this.left === true /*&& this.stopTurning === false*/ ){
-				this.turnLeft();			
+				this.turn( 'left' );			
 			}
 			/*
 				DEBUGG
@@ -102,7 +102,7 @@ var game = (function( win, doc, tank, undef){
 
 			}*/
 			if( this.right === true /*&& this.stopTurning !== true */ ){
-				this.turnRight();			
+				this.turn( 'right');			
 			}
 						
 			if( this.move === true ){

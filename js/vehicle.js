@@ -107,14 +107,7 @@ Vehicle.prototype.addIntelegens = function( intelegens ){
 
 };
 
-Vehicle.prototype.autoTurn = function(){
 
-		var randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 ),
-			pos = angleCalc( randAngle, this.x, this.y, this.speed );
-			
-		this.rotationAngle = ( randAngle > 360 - this.rotationSpeed ) ? 0: randAngle;
-
-};
 
 Vehicle.prototype.fward = function(){
 
@@ -147,10 +140,50 @@ Vehicle.prototype.bward = function(){
 	}
 };
 
-Vehicle.prototype.turnLeft = function(){
-	
-	console.log('turnLeft', this.label);
 
+Vehicle.prototype.autoTurn = function(){
+
+		var randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 );
+			//pos = angleCalc( randAngle, this.x, this.y, this.speed );
+			
+		this.rotationAngle = ( randAngle > 360 - this.rotationSpeed ) ? 0: randAngle;
+
+
+		if( this.weaponInitiated === true ){
+
+			this.weapon.rotationAngle = this.rotationAngle; //this.weapon.rotationAngle + this.rotationSpeed;
+
+		}
+
+
+};
+
+Vehicle.prototype.turn = function( action ){
+	
+	var newAngle, newWeaponAngle, pos;
+
+	switch( action ){
+		case 'left':
+			newAngle = this.rotationAngle - this.rotationSpeed;
+			this.rotationAngle = ( newAngle < 0 + this.rotationSpeed  ) ? 360: newAngle;
+			newWeaponAngle = this.weapon.rotationAngle - this.rotationSpeed;
+			break;
+		case 'right':
+			newAngle = this.rotationAngle + this.rotationSpeed;
+			this.rotationAngle = ( newAngle > 360 - this.rotationSpeed ) ? 0: newAngle;
+			newWeaponAngle = this.weapon.rotationAngle + this.rotationSpeed;
+			break;
+	}
+
+	if( this.weaponInitiated === true ){
+
+		this.weapon.rotationAngle = newWeaponAngle;
+
+	}
+};
+
+/*Vehicle.prototype.turn = function(){
+	
 	var newAngle = this.rotationAngle - this.rotationSpeed,
 		pos = angleCalc( newAngle, this.x, this.y, this.speed );
 		
@@ -175,7 +208,7 @@ Vehicle.prototype.turnRight = function(){
 		this.weapon.rotationAngle = this.weapon.rotationAngle + this.rotationSpeed;
 
 	}
-};
+};*/
 
 Vehicle.prototype.draw = function(){
 
