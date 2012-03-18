@@ -21,10 +21,14 @@
 					player.right = true;
 					break;
 				case 65: // a - turn Weapon left
-					player.weapon.isTurningLeft = true;
+					if( player.weaponInitiated === true ){
+						player.weapon.isTurningLeft = true;
+					}
 					break;
 				case 68: // d - turn Weapon right
-					player.weapon.isTurningRight = true;
+					if( player.weaponInitiated === true ){
+						player.weapon.isTurningRight = true;
+					}
 					break;
 				case 32: // space	
 					player.weapon.shot();
@@ -50,10 +54,14 @@
 					player.right = false;
 					break;
 				case 65: // a
-					player.weapon.isTurningLeft = false;
+					if( player.weaponInitiated === true ){
+						player.weapon.isTurningLeft = false;
+					}
 					break;
 				case 68: // d
-					player.weapon.isTurningRight = false;
+					if( player.weaponInitiated === true ){
+						player.weapon.isTurningRight = false;
+					}
 					break;
 			}
 	};

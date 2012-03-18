@@ -7,7 +7,7 @@
 /**************************************************************************/
 
 var Vehicle = function(){
-	
+	this.label = 'Vehicle';
 	this.player = false;
 	this.width = 100;
 	this.height = 200;
@@ -37,7 +37,8 @@ var Vehicle = function(){
 	this.bottomOut = false;
 	this.stopTurning = false;
 	this.turningOnce = false;
-	this.type = 'Vehicle';
+	this.weaponInitiated = false;
+	
 	
 	/*
 	 	INTELEGENS
@@ -46,33 +47,11 @@ var Vehicle = function(){
 	this.intelegens = 0;
 	//this.intelegensRange = 10;
 	this.intel = {};
+	this.intel.turningSpeed = 2000;
 	//this.intel.ranAngleInd = this.intelegensRange + this.intelegens;
 	//this.intel.intervalInd = 0; 
 	
 	
-
-};
-
-Vehicle.prototype.addIntelegens = function( intelegens ){
-
-	this.intelegens = intelegens;
-
-	/*
-		Sets new value on this.inte.intervalInd on a interval.
-	*/
-
-	(function(){
-		if( this.intelegens > 0 ){
-			var interval = 0, that = this;
-			setInterval( function(){
-				
-				//that.autoMove();
-
-				that.autoTurn();
-
-			}, 2000);
-		}
-	}).call( this );
 
 };
 
@@ -104,30 +83,31 @@ Vehicle.prototype.add = function(){
 	this.correctionX = - this.width / 2;
 	this.correctionY = - this.height / 2;
 	
-	
-	//win.tankElements.body.canv.push( canv );
-	//win.tankElements.body.ctx.push( ctx );
-
 	this.canvas = canv;
 	this.ctx = ctx;
 	
 };
 
+Vehicle.prototype.addIntelegens = function( intelegens ){
+
+	this.intelegens = intelegens;
+
+	(function(){
+		if( this.intelegens > 0 ){
+			var interval = 0, that = this;
+			setInterval( function(){
+
+				that.autoTurn();
+
+				that.weapon.shot();
+
+			}, that.intel.turningSpeed );
+		}
+	}).call( this );
+
+};
 
 Vehicle.prototype.autoTurn = function(){
-
-	/*var //index = this.intel.intervalInd, // intervall index
-		randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 );
-		pos = window.angleCalc( randAngle, this.x, this.y, this.width, this.height, this.speed );
-
-		console.log( randAngle );
-		
-		this.move = true;
-		this.x += pos.x;
-		this.y += pos.y;
-		
-		this.collitionX = this.x + this.correctionX;
-		this.collitionY = this.y + this.correctionY;*/
 
 		var randAngle = this.rotationAngle + ( 360 - Math.random() * ( 360 / 90 ) * 100 ),
 			pos = angleCalc( randAngle, this.x, this.y, this.speed );
@@ -137,12 +117,7 @@ Vehicle.prototype.autoTurn = function(){
 };
 
 Vehicle.prototype.fward = function(){
-	
-	/*if ( this.intelegens > 0 ) {
-		this.autoMove();
-	}
-	else if( this.stopFWard === false ){
-	*/	
+
 		var pos = window.angleCalc( this.rotationAngle, this.x, this.y, this.width, this.height, this.speed );
 		
 		this.move = true;
@@ -151,7 +126,7 @@ Vehicle.prototype.fward = function(){
 		
 		this.collitionX = this.x + this.correctionX;
 		this.collitionY = this.y + this.correctionY;
-	//}	
+
 };
 
 
@@ -173,10 +148,19 @@ Vehicle.prototype.bward = function(){
 };
 
 Vehicle.prototype.turnLeft = function(){
+	
+	console.log('turnLeft', this.label);
+
 	var newAngle = this.rotationAngle - this.rotationSpeed,
 		pos = angleCalc( newAngle, this.x, this.y, this.speed );
 		
 	this.rotationAngle = ( newAngle < 0 + this.rotationSpeed  ) ? 360: newAngle;
+
+	if( this.weaponInitiated === true ){
+
+		this.weapon.rotationAngle = this.weapon.rotationAngle - this.rotationSpeed;
+
+	}
 };
 
 
@@ -185,6 +169,12 @@ Vehicle.prototype.turnRight = function(){
 		pos = angleCalc( newAngle, this.x, this.y, this.speed );
 		
 	this.rotationAngle = ( newAngle > 360 - this.rotationSpeed ) ? 0: newAngle;
+
+	if( this.weaponInitiated === true ){
+
+		this.weapon.rotationAngle = this.weapon.rotationAngle + this.rotationSpeed;
+
+	}
 };
 
 Vehicle.prototype.draw = function(){
@@ -290,7 +280,9 @@ Vehicle.prototype.stop = function(){
 
 
 var Tank = function( x, y ){
-	this.type = 'Tank';
+	
+	// THIS
+	this.label = 'Tank';
 	this.x = x || 100;
 	this.y = y || 100;
 	this.width = 100;
@@ -299,6 +291,8 @@ var Tank = function( x, y ){
 	this.forward = false;
 	this.speed = 10;
 	this.add();
+	
+	// WEAPON
 	this.weapon = new Weapon( this, 'cannon', 50, 30 );
 };
 
@@ -311,7 +305,9 @@ Tank.prototype = new Vehicle();
 
 
 var Airplane = function( x, y ){
-	this.type = 'Airplane';
+	
+	// THIS
+	this.label = 'Airplane';
 	this.x = x || 100;
 	this.y = y || 100;
 	this.width = 50;
@@ -322,7 +318,6 @@ var Airplane = function( x, y ){
 	this.color = 'rgba(83, 224, 207, 1)';
 	this.shadowBlur = 15;
 	this.shadowColor = 'rgba(0, 0, 0, .3)';
-	
 	this.add();
 	
 };
@@ -336,7 +331,9 @@ Airplane.prototype = new Vehicle();
 
 
 var Human = function( x, y ){
-	this.type = 'Human';
+	
+	//THIS
+	this.label = 'Human';
 	this.x = x || 200;
 	this.y = y || 200;
 	this.width = 20;
@@ -344,17 +341,19 @@ var Human = function( x, y ){
 	this.rotationAngle = -90;
 	this.rotationspeed = 360 / 90;
 	this.forward = true;
-	this.speed = 10;
+	this.speed = 3;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
-	
+	this.add();
 
+	// INTELEGENS
 	this.intelegens = 10;
 	this.turningOnce = true;
-	this.add();
-	this.weapon = new Weapon( this, 'gun', 30, 5 );
-
 	this.addIntelegens( 5 );
+
+	// WEAPON
+	this.weapon = new Weapon( this, 'gun', 30, 5 );
+	
 };
 
 Human.prototype = new Vehicle();

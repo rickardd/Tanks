@@ -9,9 +9,7 @@ var game = (function( win, doc, tank, undef){
 		
 		win.canv = doc.createElement('canvas');
 		win.ctx = ( canv && canv.getContext('2d') ) ? canv.getContext('2d'): udef;
-		
-		//doc.body.appendChild( win.canv );
-		
+				
 		if( ctx ){
 			canv.width = win.innerWidth ;
 			canv.height = win.innerHeight - 10;
@@ -29,7 +27,7 @@ var game = (function( win, doc, tank, undef){
 			canvPlay.height = win.innerHeight - 10;
 		}
 		else{
-			console.debug('canvas not built');
+			console.info(' Game canvas not built');
 		}
 		
 	},
@@ -63,7 +61,7 @@ var game = (function( win, doc, tank, undef){
 		win.airplanes.push( airplane );
 		win.humans.push( human );
 
-		for (var i = 0; i <= 50; i++) {
+		for (var i = 0; i <= 10; i++) {
 			win.humans.push( new Human( 800, 500) );				
 		}
 
@@ -94,7 +92,7 @@ var game = (function( win, doc, tank, undef){
 			}
 			/*
 				DEBUGG
-			if( this.type = 'Human' ){
+			if( this.label = 'Human' ){
 
 				console.log( 'stop Turning', this.stopTurning);
 
@@ -115,12 +113,14 @@ var game = (function( win, doc, tank, undef){
 
 	},
 	rotateWeapon = function(){
+
 		if( this.isTurningRight === true ){
-				this.turnRight();			
+			this.turnRight();
 		}
 		if( this.isTurningLeft === true ){
 			this.turnLeft();			
 		}
+
 	},
 	gameLoop = function(){
 		
@@ -213,13 +213,17 @@ var game = (function( win, doc, tank, undef){
 			TANK WEAPON
 		*/
 		
-		win.tanks.forEach( function( Tank, i ){
+		win.tanks.forEach( function( Vehicle, i ){
 			
-			rotateWeapon.call( Tank.weapon );
-			
-			Tank.weapon.update();
-			
-			Tank.weapon.draw();
+			if( Vehicle.weaponInitiated === true ){
+
+				rotateWeapon.call( Vehicle.weapon );
+				
+				Vehicle.weapon.update();
+				
+				Vehicle.weapon.draw();
+			}
+
 			
 		});		
 
