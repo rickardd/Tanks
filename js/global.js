@@ -227,4 +227,81 @@ var inst1 = new Obj1();
 		
 })();	
 
+
+(function(){
+
+	this.checkShockWaveHit = function( swX, swY, swR ){
+
+		var swMidPoint = {
+				x: swX + ( swR / 2 ),
+				y: swY + ( swR / 2 )
+			},
+			enemieWidth = 1,
+			enemieHeight = 1,
+			enemieX1 = 150,
+			enemieY1 = 150,
+			enemieMidPoint = {
+				x: enemieX1 + ( ( enemieX1 + enemieWidth ) / 2 ),
+				y: enemieY1 + ( ( enemieY1 + enemieHeight ) / 2 )
+			},
+			enemieDistanceX1 = Math.abs( swMidPoint.x - enemieMidPoint.x ),
+			enemieDistanceY1 = Math.abs( swMidPoint.y - enemieMidPoint.y ),
+			enemieDistanceR1,
+			hitScore;
+
+			if( enemieDistanceX1 === 0 && enemieDistanceY1 === 0 ){ // We will not have a devison by 0 so we set it to full hit. 
+				hitScore = 1;
+			}
+			else{
+				enemieDistanceR1 = Math.sqrt( Math.pow( enemieDistanceX1, 2 ) + Math.pow( enemieDistanceY1, 2 ) );			
+				hitScore = enemieDistanceR1 / swR;
+			}
+			
+			
+						
+			if( hitScore > 1){
+				hitScore = -1;
+			}
+			else{
+				hitScore -= 1;
+			}
+
+			console.log( hitScore, enemieDistanceR1 );
+
+			return hitScore;
+
+	};
+
+	checkShockWaveHit( 100, 100, 200 );
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
