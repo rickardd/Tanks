@@ -46,6 +46,11 @@ var game = (function( win, doc, tank, undef){
 		
 		
 	},
+	createStatusBar = function(){
+		
+		win.statusBar = new StatusBar();
+		
+	},
 	createBarrier = function(){
 	
 		win.barriers.push( new Barrier() );			
@@ -252,6 +257,17 @@ var game = (function( win, doc, tank, undef){
 			Airplane.draw();
 			
 		});
+
+		/*
+			STATUS
+		*/
+		( function( win ){
+			win.statusBar.update();
+			win.statusBar.draw();
+
+		})(win);
+		
+
 		
 		
 		/*
@@ -271,6 +287,7 @@ var game = (function( win, doc, tank, undef){
 		start: function(){
 			createCanvas();
 			createBackground();
+			createStatusBar();
 			createBarrier();
 			createVehicle();
 			gameLoop();		

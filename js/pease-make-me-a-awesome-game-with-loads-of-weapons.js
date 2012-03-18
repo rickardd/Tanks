@@ -5,7 +5,7 @@
 
 
 
-	var scriptss = ['global', 'background', 'barriers', 'weapon', 'vehicle', 'game', 'keyboard'];
+	var scriptss = ['global', 'background', 'statistics', 'barriers', 'weapon', 'vehicle', 'game', 'keyboard'];
 
 	scriptss.forEach(function( scriptName, i ){
 

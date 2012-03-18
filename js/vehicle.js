@@ -38,6 +38,8 @@ var Vehicle = function(){
 	this.stopTurning = false;
 	this.turningOnce = false;
 	this.weaponInitiated = false;
+	this.damage = 0;
+	this.kills = 0;
 	
 	
 	/*
@@ -73,7 +75,6 @@ Vehicle.prototype.add = function(){
 		ctx.shadowOffsetY = 0;   
 		ctx.shadowBlur = this.shadowBlur;   
 		ctx.shadowColor = "rgba(0,0,0,.5)";	 
-		console.count( 'shadowBlur' );
 	};
     
 	ctx.fillStyle = this.color;
@@ -181,7 +182,7 @@ Vehicle.prototype.turn = function( action ){
 
 	}
 };
-
+	
 /*Vehicle.prototype.turn = function(){
 	
 	var newAngle = this.rotationAngle - this.rotationSpeed,
@@ -250,13 +251,11 @@ Vehicle.prototype.checkPosition = function(){
 	if( this.x > ctx.canvas.width + margin && this.leftOut === false ){
 		this.x = - 200;
 		this.rightOut = true;
-		console.log( 'rightOut' );
 	}
 	// Vehicle moving out of window left
 	else if( this.x < -margin && this.rightOut === false ){
 		this.x = ctx.canvas.width + 200;
 		this.leftOut = true;
-		console.log( 'leftOut' );
 	}		
 	// Vehicle moving on stage
 	else if( this.x > 0 && this.x < ctx.canvas.width ){
@@ -324,6 +323,10 @@ var Tank = function( x, y ){
 	this.forward = false;
 	this.speed = 10;
 	this.add();
+
+	// WAR
+	this.damage = 10;
+	this.kills = 22;
 	
 	// WEAPON
 	this.weapon = new Weapon( this, 'cannon', 50, 30 );

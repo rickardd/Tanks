@@ -62,8 +62,6 @@
 			pos = angleCalc( this.rotationAngle, this.x, this.y, this.rotationSpeed );
 			
 		this.rotationAngle = ( newAngle > 360 - this.rotationSpeed ) ? 0: newAngle;
-
-		console.count(' turnRight ');
 	};
 
 	Weapon.prototype.turnLeft = function(){

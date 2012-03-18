@@ -215,8 +215,6 @@ var inst1 = new Obj1();
 					that.stopBWard = true;
 					that.backward = false;	
 				}
-		
-				console.count( 'collition' );
 			}
 			else{
 				that.stopFWard = false;
