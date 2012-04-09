@@ -39,7 +39,8 @@ var Vehicle = function(){
 	this.turningOnce = false;
 	this.weaponInitiated = false;
 	this.damage = 0;
-	this.kills = 0;
+	//this.kills = 0;
+	this.dead = false;
 	
 	
 	/*
@@ -89,6 +90,12 @@ Vehicle.prototype.add = function(){
 	
 };
 
+Vehicle.prototype.update = function( intelegens ){
+	if( this.damage >= 1 ){
+		this.dead = true;
+	}
+}
+
 Vehicle.prototype.addIntelegens = function( intelegens ){
 
 	this.intelegens = intelegens;
@@ -101,6 +108,8 @@ Vehicle.prototype.addIntelegens = function( intelegens ){
 				that.autoTurn();
 
 				that.weapon.shot();
+
+				console.log( that.weapon.body );
 
 			}, that.intel.turningSpeed );
 		}
@@ -319,7 +328,7 @@ var Tank = function( x, y ){
 	this.y = y || 100;
 	this.width = 100;
 	this.height = 50;
-	this.rotationAngle = 90;
+	this.rotationAngle = 0;
 	this.rotationSpeed = 2;
 	this.forward = false;
 	this.speed = 5;
@@ -378,7 +387,7 @@ var Human = function( x, y ){
 	this.rotationAngle = -90;
 	this.rotationspeed = 360 / 90;
 	this.forward = true;
-	this.speed = 0;
+	this.speed = 1;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
 	this.add();

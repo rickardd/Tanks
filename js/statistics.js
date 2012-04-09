@@ -13,6 +13,8 @@
 		this.eKillsName = 'Enemie Kills';
 		this.eDamageText = '';
 		this.eKillsText = '';
+
+		this.enemieKilled = [];
 	};	
 
 
@@ -20,8 +22,10 @@
 		this.damageText = this.damageName + ': ' + win.player.damage;
 		this.killsText = this.killsName + ': ' + win.player.kills;
 
-		this.eDamageText = this.eDamageName + ': ' + Math.ceil( win.humans[0].damage * 100 );
-		this.eKillsText = this.eKillsName + ': ' + win.humans[0].kills;
+		if( win.humans[0] ){
+			this.eDamageText = this.eDamageName + ': ' + Math.ceil( win.humans[0].damage * 100 );
+		}
+		this.eKillsText = this.eKillsName + ': ' + this.enemieKilled.length;
 	};
 
 	StatusBar.prototype.draw = function(){

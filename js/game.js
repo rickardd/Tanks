@@ -66,9 +66,9 @@ var game = (function( win, doc, tank, undef){
 		win.airplanes.push( airplane );
 		win.humans.push( human );
 
-		/*for (var i = 0; i <= 10; i++) {
-			win.humans.push( new Human( 800, 500) );				
-		}*/
+		for (var i = 0; i <= 4; i++) {
+			win.humans.push( new Human( 700, 200) );				
+		}
 
 		win.player = tank;
 		win.player.player = true;
@@ -151,6 +151,16 @@ var game = (function( win, doc, tank, undef){
 		*/
 
 		win.humans.forEach( function( Human, i ){
+
+			Human.update();
+
+			if( Human.dead === true ){
+				
+				humans.splice( i, 1 );
+
+				console.log( 'Human dead and removed' );
+				win.statusBar.enemieKilled.push( { type: Human.label } );
+			}
 			
 			moveVehicle.call( Human );
 
