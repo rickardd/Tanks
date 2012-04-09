@@ -242,16 +242,42 @@
 		this.color = 'rgba(0,0,0,.03)';
 		this.circles = [];
 		this.nrOfCircles = 4;
+
+		this.shockwaveBeginR = 0;
+		this.shockwaveEndR = 200;
+
 		( function( that ){
 			
+			/*
+				creates shockwaves
+			*/
+
 			var i = 0;
-			
 			for( i; i < that.nrOfCircles; i++ ){
-				that.circles.push( new Shockwave( that.x, that.y) );	
+				that.circles.push( new Shockwave( that.x, that.y, that.shockwaveBeginR, that.shockwaveEndR ) );	
 			}
+
+			/*
+				Checks shockwavehit
+			*/
+
+			var j = 0, humans = window.humans, humansLen = humans.length;
+			for( j; j < humansLen; j++ ){
+				var hit = window.checkShockWaveHit( that.x, that.y, that.shockwaveEndR, humans[j].x, humans[j].y, humans[j].width, humans[j].height );
+
+				console.log( that.x, that.y, that.shockwaveEndR, humans[j].x, humans[j].y, humans[j].width, humans[j].height );
+
+				if( hit != -1 ){
+					console.log( "HIT: ", hit );
+					humans[j].damage = humans[j].damage + hit;
+				}
+			}
+
 			
 				
 		})( this );
+
+
 	}
 
 	Crate.prototype.update = function(){
@@ -304,15 +330,15 @@
 	**************************/
 
 
-	var Shockwave = function( x, y ){
+	var Shockwave = function( x, y, beginR, endR ){
 		
 		this.dead = false;
 		this.procentalDeath = 0;
 		this.x = x;
 		this.y = y;
-		this.r = 1;
+		this.r = beginR;
 		this.currentR = this.r;
-		this.livingRadius = 500; // stämmer inte helt - 500 ger linjer på 100 i radie. Kolla upp
+		this.livingRadius = endR; // stämmer inte helt - 500 ger linjer på 100 i radie. Kolla upp
 		this.lineDrift = 5;
 		this.expandSpeed = 5;
 		this.lineWidth = 1;
@@ -329,14 +355,17 @@
 	}
 
 	Shockwave.prototype.update = function(){
-		this.currentR += this.expandSpeed;
-		this.procentalDeath = ( this.currentR / this.livingRadius ) * 100;
-		this.procentalDeath = ( this.procentalDeath < 0 ) ? 100: this.procentalDeath;
-		this.color.a -= this.procentalDeath / 100;
+		
+		this.procentalDeath = ( 1 - ( this.currentR / this.livingRadius ) ).toFixed(2);
+		this.color.a = this.procentalDeath;
 		this.Shockwave = 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.color.a + ')';  
 			
-		if( this.procentalDeath >= 100 ){
+		
+		if( this.procentalDeath <= 0 ){
 			this.dead = true;
+		}
+		else{
+			this.currentR += this.expandSpeed;	
 		}
 
 	};

@@ -319,9 +319,10 @@ var Tank = function( x, y ){
 	this.y = y || 100;
 	this.width = 100;
 	this.height = 50;
-	this.rotationAngle = 25;
+	this.rotationAngle = 90;
+	this.rotationSpeed = 2;
 	this.forward = false;
-	this.speed = 10;
+	this.speed = 5;
 	this.add();
 
 	// WAR
@@ -377,7 +378,7 @@ var Human = function( x, y ){
 	this.rotationAngle = -90;
 	this.rotationspeed = 360 / 90;
 	this.forward = true;
-	this.speed = 3;
+	this.speed = 0;
 	this.color = 'rgba(83, 0, 207, 1)';
 	this.shadowBlur = 0;
 	this.add();

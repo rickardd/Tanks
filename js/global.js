@@ -230,49 +230,42 @@ var inst1 = new Obj1();
 
 (function(){
 
-	this.checkShockWaveHit = function( swX, swY, swR ){
+	this.checkShockWaveHit = function( swX, swY, swR, eX, eY, eW, eH ){
 
 		var swMidPoint = {
-				x: swX + ( swR / 2 ),
-				y: swY + ( swR / 2 )
+				/*x: swX + swR,
+				y: swY + swR*/
+				x: swX,
+				y: swY
 			},
-			enemieWidth = 1,
-			enemieHeight = 1,
-			enemieX1 = 150,
-			enemieY1 = 150,
+			enemieWidth = eW,
+			enemieHeight = eH,
+			enemieX1 = eX,
+			enemieY1 = eY,
 			enemieMidPoint = {
-				x: enemieX1 + ( ( enemieX1 + enemieWidth ) / 2 ),
-				y: enemieY1 + ( ( enemieY1 + enemieHeight ) / 2 )
+				x: enemieX1 + ( enemieWidth / 2 ),
+				y: enemieY1 + ( enemieHeight / 2 )
 			},
 			enemieDistanceX1 = Math.abs( swMidPoint.x - enemieMidPoint.x ),
 			enemieDistanceY1 = Math.abs( swMidPoint.y - enemieMidPoint.y ),
 			enemieDistanceR1,
 			hitScore;
 
-			if( enemieDistanceX1 === 0 && enemieDistanceY1 === 0 ){ // We will not have a devison by 0 so we set it to full hit. 
-				hitScore = 1;
+			//console.log( swMidPoint.x, enemieMidPoint.x, enemieDistanceX1 );
+
+			enemieDistanceR1 = Math.sqrt( Math.pow( enemieDistanceX1, 2 ) + Math.pow( enemieDistanceY1, 2 ) ); // Pythagoras	
+			hitScore = enemieDistanceR1 / swR;
+
+			if( hitScore >= 0 && hitScore <= 1 ){
+				hitScore = 1 - hitScore;
 			}
 			else{
-				enemieDistanceR1 = Math.sqrt( Math.pow( enemieDistanceX1, 2 ) + Math.pow( enemieDistanceY1, 2 ) );			
-				hitScore = enemieDistanceR1 / swR;
-			}
-			
-			
-						
-			if( hitScore > 1){
 				hitScore = -1;
 			}
-			else{
-				hitScore -= 1;
-			}
 
-			console.log( hitScore, enemieDistanceR1 );
-
-			return hitScore;
+			return parseFloat( hitScore.toFixed(1) );
 
 	};
-
-	checkShockWaveHit( 100, 100, 200 );
 
 })();
 

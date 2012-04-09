@@ -66,9 +66,9 @@ var game = (function( win, doc, tank, undef){
 		win.airplanes.push( airplane );
 		win.humans.push( human );
 
-		for (var i = 0; i <= 10; i++) {
+		/*for (var i = 0; i <= 10; i++) {
 			win.humans.push( new Human( 800, 500) );				
-		}
+		}*/
 
 		win.player = tank;
 		win.player.player = true;
@@ -199,6 +199,7 @@ var game = (function( win, doc, tank, undef){
 			}
 			
 		});
+
 		
 		/*
 			HUMAN WEAPON

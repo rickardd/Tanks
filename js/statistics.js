@@ -8,18 +8,26 @@
 		this.killsName = 'Kills';
 		this.damageText = '';
 		this.killsText = '';
+
+		this.eDamageName = 'Enemie Damage';
+		this.eKillsName = 'Enemie Kills';
+		this.eDamageText = '';
+		this.eKillsText = '';
 	};	
 
 
 	StatusBar.prototype.update = function(){
 		this.damageText = this.damageName + ': ' + win.player.damage;
 		this.killsText = this.killsName + ': ' + win.player.kills;
+
+		this.eDamageText = this.eDamageName + ': ' + Math.ceil( win.humans[0].damage * 100 );
+		this.eKillsText = this.eKillsName + ': ' + win.humans[0].kills;
 	};
 
 	StatusBar.prototype.draw = function(){
 
 		var ctx = win.ctx, 
-			rows = 3,
+			rows = 5,
 			fontSize = 12,						
 			padding = 10,
 			lineHeight = fontSize + 5,
@@ -42,6 +50,8 @@
 		ctx.textBaseline = 'top';
 		ctx.fillText( this.name, 0,0 );
 
+		/* Player */
+
 		ctx.translate( 0, lineHeight );
 		
 		ctx.fillText( this.damageText, 0,0 );
@@ -49,6 +59,16 @@
 		ctx.translate( 0, lineHeight );
 
 		ctx.fillText( this.killsText, 0,0 );
+
+		/* Enemie */
+
+		ctx.translate( 0, lineHeight );
+		
+		ctx.fillText( this.eDamageText, 0,0 );
+
+		ctx.translate( 0, lineHeight );
+
+		ctx.fillText( this.eKillsText, 0,0 );
 
 		ctx.restore();
 
